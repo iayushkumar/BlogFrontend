@@ -2,16 +2,20 @@ import noteContext from './noteContext';
 import { useState } from 'react';
 const NoteState=(props)=>{
 
-const url="http://localhost:4000";
+const url1="https://blog-backend-rosy-six.vercel.app";
 
+// // 
+// "http://localhost:4000";
 
 const [Notes, setNotes] = useState([]);
+
+const [Blog, setBlog] = useState([]);
 
 
 //fetch note
 const fetchnotes = async () => {
   
-  const response = await fetch(`${url}/api/notes/getuserinfo`, {
+  const response = await fetch(`${url1}/api/notes/getuserinfo`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -24,10 +28,36 @@ const fetchnotes = async () => {
 }
 
 
+// fetch every user notes inrespective of any user
+const fetchevery = async () => {
+  
+  const response = await fetch(`${url1}/api/notes/fetchevery`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+     
+    },
+  });
+
+  const json = await response.json();
+  setBlog(json);
+}
+
+
+
+
+
+
+
+
+
+
+
+
 //add a note add a note add a note add a note add a note
-const addNote= async (title,description,tag)=>
+const addNote= async (title,description,url,tag)=>
 { 
-  const response = await fetch(`${url}/api/notes/addnotes`, {
+  const response = await fetch(`${url1}/api/notes/addnotes`, {
     method: "POST",
     mode: "cors",
     cache: "no-cache",
@@ -37,21 +67,12 @@ const addNote= async (title,description,tag)=>
       "auth-token" : localStorage.getItem('token')
     },
   
-    body: JSON.stringify({title,description,tag}),
+    body: JSON.stringify({title,description,url,tag}),
   });
-  const json = response.json(); 
+  const json = await response.json(); 
   console.log(json);
-  //todo api call
-  const note= {
-    "_id": "6528fa1befa55348365bc5d4",
-    "user": "65277edd20bba98152d1eaa5",
-    "title": title,
-    "description": description,
-    "tag": tag,
-    "date": "2023-10-13T08:04:43.504Z",
-    "__v": 0
-  }
- setNotes(Notes.concat(note));
+ 
+ setNotes(Notes.concat(json));
 }
 
  
@@ -59,7 +80,7 @@ const addNote= async (title,description,tag)=>
 const deleteNote= async (id)=>
 {
 
-  const response = await fetch(`${url}/api/notes/deleteNote/${id}`, {
+  const response = await fetch(`${url1}/api/notes/deleteNote/${id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -79,9 +100,9 @@ const Newnote=Notes.filter(  (note)=>{return note._id!==id;})
 
 
 //Edit a note   //Edit a note  //Edit a note
-const editNote = async (id, title, description, tag) => {
-  
-  const response = await fetch(`${url}/api/notes/updateNote/${id}`, {
+const editNote = async (id, title, description,url, tag) => {
+  // console.log("jjus",{title,description,url,tag});
+  const response = await fetch(`${url1}/api/notes/updateNote/${id}`, {
     method: "PUT",
     mode: "cors",
     cache: "no-cache",
@@ -91,7 +112,8 @@ const editNote = async (id, title, description, tag) => {
       "auth-token" :localStorage.getItem('token')
     },
   
-    body: JSON.stringify({title,description,tag}),
+    body: JSON.stringify({title,description,url,tag}),
+
   });
   const json= response.json(); 
   console.log(json);
@@ -103,8 +125,10 @@ let newNotes=JSON.parse(JSON.stringify(Notes));
     let element = newNotes[index];
 
     if (element._id === id) {
+      
       newNotes[index].title = title;
       newNotes[index].description = description;
+      newNotes[index].url = url;
       newNotes[index].tag = tag;
       break;
     }
@@ -116,7 +140,7 @@ let newNotes=JSON.parse(JSON.stringify(Notes));
 
  
   return (
-    <noteContext.Provider value={{Notes,setNotes,addNote,deleteNote,editNote,fetchnotes}}> 
+    <noteContext.Provider value={{Notes,Blog,setNotes,addNote,deleteNote,editNote,fetchevery,fetchnotes}}> 
     {props.children}
     </noteContext.Provider>
   )

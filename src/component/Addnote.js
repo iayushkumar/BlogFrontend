@@ -8,12 +8,12 @@ export default function Addnote() {
     const first = useContext(noteContext);
     const { addNote } = first;
 
-    const [Notes, setNotes] = useState({ title: "", description: "", tag: "" });
+    const [Notes, setNotes] = useState({ title: "", description: "", url:"",tag: "" });
 
     const handleonclick = (e) => {
         e.preventDefault();
-        addNote(Notes.title,Notes.description,Notes.tag)
-        setNotes({title: "", description: "", tag: ""})
+        addNote(Notes.title,Notes.description,Notes.url,Notes.tag)
+        setNotes({title: "", description: "", url:"",tag: ""})
     }
 
 
@@ -35,6 +35,13 @@ export default function Addnote() {
                     <label htmlFor="description" className="form-label">Description</label>
                     <input type="text" className="form-control" id="description" name="description" value={Notes.description} onChange={onchange} />
                 </div>
+
+                <div className="mb-3">
+                    <label htmlFor="description" className="form-label">url</label>
+                    <input type="text" className="form-control" id="url" name="url" value={Notes.url} onChange={onchange} />
+                </div>
+
+
                 <div className="mb-3">
                     <label htmlFor="tag" className="form-label">Tag</label>
                     <input type="text" className="form-control" id="tag" name="tag"  value={Notes.tag} onChange={onchange} />

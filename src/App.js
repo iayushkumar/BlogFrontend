@@ -7,6 +7,8 @@ import NoteState from './context/notes/NoteState';
 
 import Signup from './component/Signup';
 import Login from './component/Login';
+import Personal from './component/Personal';
+import Post from './component/Post';
 
 
 function App() {
@@ -15,7 +17,7 @@ function App() {
     <Router>
       <Navbar />
      
-      <div className='container'>
+      <div className='containerab'>
       <Routes>
         <Route  exact path="/" element={<Home />} />
 
@@ -23,6 +25,10 @@ function App() {
 
         <Route exact path="/Login" element={<Login />} />
         <Route exact path="/Signup" element={<Signup />} />
+
+        <Route exact path="/post" element={<Post />} />
+        <Route exact path="/personal" element={<Personal />} />
+
       </Routes>
       </div>
     </Router>

@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,12 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+
+
+/* In App.css or your stylesheet */
+.custom-toggler .navbar-toggler-icon {
+  color: white !important;
+  background-color: white !important;
 }
